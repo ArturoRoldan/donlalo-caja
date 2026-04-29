@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Don Lalo — Cierre de Caja</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+    :root {
+      --red: #C0392B;
+      --red-dark: #922B21;
+      --red-light: #E74C3C;
+      --gold: #D4AC0D;
+      --gold-light: #F1C40F;
+      --cream: #FDF8F0;
+      --white: #FFFFFF;
+      --text: #2C1810;
+      --text-light: #7D5A4F;
+      --green-dark: #1A7A3C;
+      --green: #27AE60;
+      --shadow: 0 4px 24px rgba(192,57,43,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 48px;
+      position: relative;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-pattern img {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      opacity: 0.08;
+    }
+
+    .header, .container { position: relative; z-index: 1; }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(150deg, var(--red-dark) 0%, var(--red) 55%, #D44536 100%);
+      padding: 36px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 0%, rgba(212,172,13,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 32px;
+      background: var(--cream);
+      border-radius: 32px 32px 0 0;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .eyebrow-line { width: 36px; height: 1px; background: rgba(212,172,13,0.6); }
+
+    .eyebrow span {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(212,172,13,0.9);
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1px;
+      text-shadow: 0 3px 24px rgba(0,0,0,0.25);
+    }
+
+    .brand em { color: var(--gold-light); font-style: normal; }
+
+    .brand-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 100px;
+      padding: 7px 18px;
+      margin-top: 18px;
+    }
+
+    .date-pill span {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.95);
+      letter-spacing: 0.3px;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 8px 16px 0;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
+
+    .section-label-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      white-space: nowrap;
+    }
+
+    .section-label-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(192,57,43,0.25), transparent);
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+
+    /* ── FIELD ── */
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .field-label-es {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .field-label-it {
+      font-size: 11px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 15px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--red);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px 14px 14px 34px;
+      border: 2px solid #EEE5DE;
+      border-radius: 13px;
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: #FAFAF8;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--red);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(192,57,43,0.08);
+    }
+
+    input[type="number"]::placeholder { color: #D8CECA; font-weight: 400; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #EEE5DE, transparent);
+      margin: 18px 0;
+    }
+
+    /* ── SUMMARY ROWS ── */
+    .sum-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #F5EDE8;
+    }
+
+    .sum-row:last-of-type { border-bottom: none; }
+
+    .sum-lbl { font-size: 13px; color: var(--text-light); line-height: 1.3; }
+    .sum-lbl small { display: block; font-size: 10px; font-style: italic; color: #C4A882; }
+    .sum-val { font-size: 19px; font-weight: 700; color: var(--text); }
+
+    .total-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #FFF7EE, #FFF2E3);
+      border: 1px solid rgba(192,57,43,0.12);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 10px;
+    }
+
+    .total-lbl { font-size: 14px; font-weight: 600; }
+    .total-lbl small { display: block; font-size: 10px; font-weight: 400; font-style: italic; color: var(--gold); margin-top: 2px; }
+    .total-val { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--red); }
+
+    /* ── STATUS ── */
+    .status-card {
+      border-radius: 22px;
+      padding: 36px 24px;
+      text-align: center;
+      transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      border: 2px dashed #D8CECA;
+      background: #F5F0EB;
+    }
+
+    .status-card.ok {
+      background: linear-gradient(145deg, var(--green-dark), var(--green));
+      border: 2px solid var(--green-dark);
+      box-shadow: 0 10px 40px rgba(27,122,60,0.35);
+      animation: breatheGreen 2.8s ease-in-out infinite;
+    }
+
+    .status-card.err {
+      background: linear-gradient(145deg, var(--red-dark), var(--red));
+      border: 2px solid var(--red-dark);
+      box-shadow: 0 10px 40px rgba(146,43,33,0.38);
+      animation: breatheRed 2.8s ease-in-out infinite;
+    }
+
+    @keyframes breatheGreen {
+      0%,100% { box-shadow: 0 10px 40px rgba(27,122,60,0.35); }
+      50%      { box-shadow: 0 10px 56px rgba(27,122,60,0.55); }
+    }
+
+    @keyframes breatheRed {
+      0%,100% { box-shadow: 0 10px 40px rgba(146,43,33,0.35); }
+      50%      { box-shadow: 0 10px 56px rgba(146,43,33,0.55); }
+    }
+
+    .status-icon { font-size: 60px; display: block; margin-bottom: 10px; }
+
+    .status-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .status-card.ok .status-title,
+    .status-card.err .status-title { color: #fff; }
+    .status-card .status-title { color: var(--text-light); }
+
+    .status-sub {
+      font-size: 13px;
+      font-style: italic;
+      margin-top: 5px;
+    }
+
+    .status-card.ok .status-sub,
+    .status-card.err .status-sub { color: rgba(255,255,255,0.82); }
+    .status-card .status-sub { color: #A09080; }
+
+    .diff-pill {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 24px;
+      background: rgba(0,0,0,0.18);
+      border-radius: 100px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    /* ── SAVE BUTTON ── */
+    .btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 19px;
+      background: linear-gradient(135deg, #D4AC0D, #B7950B);
+      border: none;
+      border-radius: 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+      box-shadow: 0 6px 22px rgba(212,172,13,0.42);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn:active { transform: scale(0.97); box-shadow: 0 3px 12px rgba(212,172,13,0.28); }
+
+    /* ── HISTORIAL ── */
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #F0E8E0;
+    }
+
+    .history-item:last-child { border-bottom: none; }
+
+    .history-date { font-size: 13px; color: var(--text-light); }
+    .history-total { font-size: 16px; font-weight: 700; }
+    .history-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .badge-ok { background: rgba(39,174,96,0.12); color: var(--green-dark); }
+    .badge-err { background: rgba(192,57,43,0.12); color: var(--red-dark); }
+
+    /* ── LOGO ── */
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-svg {
+      width: 92px;
+      height: 92px;
+      filter: drop-shadow(0 6px 20px rgba(0,0,0,0.35));
+      animation: logoPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes logoPop {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(125,90,79,0.4);
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #2C1810;
+      color: #fff;
+      padding: 13px 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND PATTERN -->
+  <div class="bg-pattern" id="bgPattern"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Milano · Italia</span>
+      <div class="eyebrow-line"></div>
+    </div>
+
+    <!-- LOGO DON LALO -->
+    <div class="logo-wrap">
+      <img src="logo.jpg" alt="Don Lalo" class="logo-svg" style="border-radius:50%;border:3px solid rgba(212,172,13,0.8);box-shadow:0 4px 24px rgba(0,0,0,0.35);">
+    </div>
+
+    <div class="brand"><em>Don</em> Lalo</div>
+    <div class="brand-sub">Pollería Peruana</div>
+    <div class="date-pill">
+      <span>📅</span>
+      <span id="currentDate"></span>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- TICKETS -->
+    <div class="section-label">
+      <span class="section-label-text">Total del día / Totale giornaliero</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="field-label">
+          <span class="field-label-es">🧾 Tickets Total</span>
+          <span class="field-label-it">Totale Scontrini</span>
+        </div>
+        <div class="input-wrap">
+          <span class="input-prefix">€</span>
+          <input type="number" id="tickets" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+        </div>
+      </div>
+    </div>
+
+    <!-- EFECTIVO -->
+    <div class="section-label">
+      <span class="section-label-text">Efectivo / Contanti</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="field-label">
+          <span class="field-label-es">💵 Caja</span>
+          <span class="field-label-it">Contanti Cassa</span>
+        </div>
+        <div class="input-wrap">
+          <span class="input-prefix">€</span>
+          <input type="number" id="efectivoCaja" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <div class="field-label">
+          <span class="field-label-es">🛵 Delivery</span>
+          <span class="field-label-it">Contanti Delivery</span>
+        </div>
+        <div class="input-wrap">
+          <span class="input-prefix">€</span>
+          <input type="number" id="efectivoDelivery" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETA -->
+    <div class="section-label">
+      <span class="section-label-text">Tarjeta / Carta</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="field-label">
+          <span class="field-label-es">💳 Caja</span>
+          <span class="field-label-it">Carta Cassa</span>
+        </div>
+        <div class="input-wrap">
+          <span class="input-prefix">€</span>
+          <input type="number" id="tarjetaCaja" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <div class="field-label">
+          <span class="field-label-es">🛵 Delivery</span>
+          <span class="field-label-it">Carta Delivery</span>
+        </div>
+        <div class="input-wrap">
+          <span class="input-prefix">€</span>
+          <input type="number" id="tarjetaDelivery" placeholder="0.00" step="0.01" min="0" oninput="calc()">
+        </div>
+      </div>
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="section-label">
+      <span class="section-label-text">Resumen / Riepilogo</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="sum-row">
+        <div class="sum-lbl">Efectivo total<small>Totale contanti</small></div>
+        <div class="sum-val" id="sumEfectivo">€0,00</div>
+      </div>
+      <div class="sum-row">
+        <div class="sum-lbl">Tarjeta total<small>Totale carta</small></div>
+        <div class="sum-val" id="sumTarjeta">€0,00</div>
+      </div>
+      <div class="total-box">
+        <div class="total-lbl">Total cobrado<small>Totale incassato</small></div>
+        <div class="total-val" id="totalCobrado">€0,00</div>
+      </div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="section-label">
+      <span class="section-label-text">Estado / Stato</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <div class="status-card" id="statusCard">
+      <span class="status-icon" id="statusIcon">⏳</span>
+      <div class="status-title" id="statusTitle">Ingresá los datos</div>
+      <div class="status-sub" id="statusSub">Inserisci i dati per verificare</div>
+    </div>
+
+    <!-- GUARDAR -->
+    <div class="section-label">
+      <span class="section-label-text">Guardar / Salva</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <button class="btn" onclick="save()">💾 Guardar cierre · Salva chiusura</button>
+
+    <!-- HISTORIAL -->
+    <div id="historySection" style="display:none">
+      <div class="section-label" style="margin-top:28px">
+        <span class="section-label-text">Historial / Storico</span>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="card" id="historyList"></div>
+    </div>
+
+    <div class="footer">Don Lalo Pollería · Sistema IA · Milán</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  // Date
+  const now = new Date();
+  document.getElementById('currentDate').textContent =
+    now.toLocaleDateString('es-IT', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  const $ = id => document.getElementById(id);
+  const num = id => parseFloat($(id).value) || 0;
+  const fmt = n => '€' + n.toFixed(2).replace('.', ',');
+
+  function calc() {
+    const tickets = num('tickets');
+    const eC = num('efectivoCaja'), eD = num('efectivoDelivery');
+    const tC = num('tarjetaCaja'), tD = num('tarjetaDelivery');
+
+    const ef = eC + eD, ta = tC + tD, total = ef + ta;
+    const diff = total - tickets;
+
+    $('sumEfectivo').textContent  = fmt(ef);
+    $('sumTarjeta').textContent   = fmt(ta);
+    $('totalCobrado').textContent = fmt(total);
+
+    const card = $('statusCard');
+    // remove old diff pill
+    const old = card.querySelector('.diff-pill');
+    if (old) old.remove();
+
+    const hasData = tickets > 0 || total > 0;
+    if (!hasData) {
+      card.className = 'status-card';
+      $('statusIcon').textContent  = '⏳';
+      $('statusTitle').textContent = 'Ingresá los datos';
+      $('statusSub').textContent   = 'Inserisci i dati per verificare';
+      return;
+    }
+
+    if (Math.abs(diff) < 0.005) {
+      card.className = 'status-card ok';
+      $('statusIcon').textContent  = '✅';
+      $('statusTitle').textContent = '¡La caja cuadra!';
+      $('statusSub').textContent   = 'La cassa quadra perfettamente';
+    } else {
+      card.className = 'status-card err';
+      $('statusIcon').textContent  = '⚠️';
+      if (diff > 0) {
+        $('statusTitle').textContent = 'Sobra dinero';
+        $('statusSub').textContent   = 'Avanzano soldi · controlla i dati';
+      } else {
+        $('statusTitle').textContent = 'Falta dinero';
+        $('statusSub').textContent   = 'Mancano soldi · controlla i dati';
+      }
+      const pill = document.createElement('div');
+      pill.className = 'diff-pill';
+      pill.textContent = (diff > 0 ? '+' : '') + fmt(diff);
+      card.appendChild(pill);
+    }
+  }
+
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function save() {
+    if (num('tickets') === 0) { toast('⚠️ Ingresá los tickets primero'); return; }
+
+    const total = num('efectivoCaja')+num('efectivoDelivery')+num('tarjetaCaja')+num('tarjetaDelivery');
+    const record = {
+      FECHA: now.toLocaleDateString('es-IT'),
+      'TICKETS TOTAL': num('tickets'),
+      'EFECTIVO CAJA': num('efectivoCaja'),
+      'EFECTIVO DELIVERY': num('efectivoDelivery'),
+      'TARJETA CAJA': num('tarjetaCaja'),
+      'TARJETA DELIVERY': num('tarjetaDelivery'),
+      'TOTAL COBRADO': total,
+      DIFERENCIA: total - num('tickets'),
+      ESTADO: Math.abs(total - num('tickets')) < 0.005 ? '✅ CUADRA' : '⚠️ DIFERENCIA',
+      NOTAS: ''
+    };
+
+    // Guardar en localStorage
+    const hist = JSON.parse(localStorage.getItem('donlalo') || '[]');
+    hist.unshift({ ...record, ok: record.ESTADO.includes('CUADRA') });
+    localStorage.setItem('donlalo', JSON.stringify(hist));
+    renderHistory();
+
+    // Enviar a n8n → Google Sheets
+    fetch('https://n8n.srv1624685.hstgr.cloud/webhook-test/guardar-cierre', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    })
+    .then(() => toast('✅ Cierre guardado en Google Sheets'))
+    .catch(() => toast('✅ Guardado local — sin conexión al servidor'));
+  }
+
+  function renderHistory() {
+    const hist = JSON.parse(localStorage.getItem('donlalo') || '[]');
+    if (!hist.length) return;
+    $('historySection').style.display = 'block';
+    $('historyList').innerHTML = hist.slice(0,7).map(r => `
+      <div class="history-item">
+        <div class="history-date">${r.fecha}</div>
+        <div class="history-total">${fmt(r.total)}</div>
+        <span class="history-badge ${r.ok ? 'badge-ok' : 'badge-err'}">${r.ok ? '✅ OK' : '⚠️ Diff'}</span>
+      </div>`).join('');
+  }
+
+  renderHistory();
+
+  // Background pattern with rotated logos
+  (function() {
+    const container = document.getElementById('bgPattern');
+    const angles = [0, 45, 90, 135, 180, 225, 270, 315, 30, 60, 120, 150, 210, 240, 300, 330];
+    const cols = Math.ceil(window.innerWidth / 110) + 1;
+    const rows = Math.ceil(window.innerHeight / 110) + 1;
+    let i = 0;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const img = document.createElement('img');
+        img.src = 'logo.jpg';
+        const angle = angles[i % angles.length];
+        img.style.left = (c * 110 + (r % 2 === 0 ? 0 : 55)) + 'px';
+        img.style.top  = (r * 110) + 'px';
+        img.style.transform = `rotate(${angle}deg)`;
+        container.appendChild(img);
+        i++;
+      }
+    }
+  })();
+</script>
+</body>
+</html>

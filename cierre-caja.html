@@ -697,7 +697,7 @@
     renderHistory();
 
     // Enviar a n8n → Google Sheets
-    fetch('https://n8n.srv1624685.hstgr.cloud/webhook-test/guardar-cierre', {
+    fetch('https://n8n.srv1624685.hstgr.cloud/webhook/guardar-cierre', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record)
